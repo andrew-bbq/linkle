@@ -1,9 +1,4 @@
 class SpotifyUtils {
-    constructor (clientId, clientSecret) {
-        this.clientId = 'f7c13465044643658fd287790d12aa12'
-        this.clientSecret = '0c2869aeee834b15858e7c5703bf7893'
-    }
-
     static getSpotifyIdFromUrl (url) {
         const splitUrl = url.split('/')
         const type = splitUrl[splitUrl.length - 2]
