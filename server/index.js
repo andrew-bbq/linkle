@@ -1,11 +1,11 @@
 // server/index.js
-
+require('dotenv').config();
 const express = require('express');
 const request = require('request');
 const path = require('path');
 
-const clientId = ''
-const clientSecret = ''
+const clientId = process.env.SPOTIFY_CLIENT_ID
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
 
 const PORT = process.env.PORT || 3001;
 
@@ -21,7 +21,7 @@ app.get('/getToken', function(req, res) {
       url: "https://accounts.spotify.com/api/token",
       method: "POST",
       headers: {
-          'Authorization':`Basic ${btoa( clientId + ':' + clientSecret)}`,
+          'Authorization':`Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`,
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': postQuery.length
       },
