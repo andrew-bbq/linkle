@@ -2,25 +2,24 @@ class SpotifyUtils {
     static getSpotifyIdFromUrl (url) {
         const splitUrl = url.split('/')
         const type = splitUrl[splitUrl.length - 2]
-        const id = splitUrl[splitUrl.length - 1]
+        var id = splitUrl[splitUrl.length - 1]
+        if (id.includes('?')) id = id.split('?')[0]
         return {type, id}
     }
 
-    static async getSpotifyTrackInfo (id) {
-        console.log(this.token)
-        if (!this.token) this.token = SpotifyUtils.getToken()
+    static async getSpotifyTrackInfo (token, id) {
         const result = await fetch(`https://api.spotify.com/v1/track/${id}`, {
             method: 'GET',
-            headers: { 'Authorization' : 'Bearer ' + this.token}
+            headers: { 'Authorization' : `Bearer  ${token}`}
         })
-        return await result.json()
+        return result
     }
 
-    static async getSpotifyInfoFromUrl (url) {
+    static async getSpotifyInfoFromUrl (url, token) {
         const {type, id} = SpotifyUtils.getSpotifyIdFromUrl(url)
         switch (type) {
             case 'Track':
-                const data = SpotifyUtils.getSpotifyTrackInfo(id)
+                const data = SpotifyUtils.getSpotifyTrackInfo(token, id)
                 return data
             default:
                 break;
